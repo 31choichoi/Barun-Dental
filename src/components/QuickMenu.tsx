@@ -55,7 +55,20 @@ export default function QuickMenu() {
               <MessageCircle size={18} className="text-[#F89B7E] fill-[#F89B7E]/20" />
               <span className="text-xs font-bold text-[#444] group-hover:text-brand-dark transition-colors">카톡상담</span>
             </a>
-            <a href="#" className="flex items-center gap-1.5 group">
+            <a 
+              href="#location" 
+              className="flex items-center gap-1.5 group"
+              onClick={(e) => {
+                e.preventDefault();
+                const target = document.querySelector('#location');
+                if (target) {
+                  const headerOffset = 80;
+                  const elementPosition = target.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                  window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+              }}
+            >
               <Navigation size={18} className="text-[#F89B7E] fill-[#F89B7E]/20" />
               <span className="text-xs font-bold text-[#444] group-hover:text-brand-dark transition-colors">오시는길</span>
             </a>

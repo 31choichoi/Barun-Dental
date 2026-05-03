@@ -40,7 +40,7 @@ export default function MediaSection() {
                     진정한 아름다움을 바른치과에서 만나보세요.
                  </p>
                  <button className="px-6 py-2 border border-brand-accent text-brand-accent text-[10px] font-bold tracking-widest uppercase hover:bg-brand-accent hover:text-white transition-all">
-                    리엔장 미디어
+                    바른 미디어
                  </button>
               </div>
 

@@ -8,6 +8,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Values from './components/Values';
@@ -18,25 +19,49 @@ import MediaSection from './components/MediaSection';
 import Location from './components/Location';
 import Footer from './components/Footer';
 import QuickMenu from './components/QuickMenu';
+import { ArrowUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
+  const [showTopBtn, setShowTopBtn] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowTopBtn(true);
+      } else {
+        setShowTopBtn(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
-        <Hero />
-        <Values />
-        <Signature />
-        <Technology />
+        <div id="home"><Hero /></div>
+        <div id="values"><Values /></div>
+        <div id="signature"><Signature /></div>
+        <div id="technology"><Technology /></div>
         <BannerSection />
         
         {/* Before & After Section (Simple Mock) */}
-        <section className="py-24 bg-white border-y border-brand-peach/20">
+        <section id="clinic" className="py-24 bg-white border-y border-brand-peach/20">
           <div className="container mx-auto px-4">
              <div className="flex flex-col md:flex-row justify-between items-center gap-12">
                 <div className="space-y-4 text-center md:text-left">
                    <h2 className="text-4xl font-serif text-brand-dark">Before & After</h2>
-                   <p className="text-brand-muted italic">치료결과로 말하는 리엔장치과</p>
+                   <p className="text-brand-muted italic">치료결과로 말하는 바른치과</p>
                 </div>
                 <div className="flex gap-4">
                    <div className="w-64 aspect-[4/3] bg-brand-cream rounded-2xl overflow-hidden relative group cursor-pointer">
@@ -63,10 +88,26 @@ export default function App() {
         </section>
 
         <MediaSection />
-        <Location />
+        <div id="location"><Location /></div>
       </main>
       <Footer />
       <QuickMenu />
+
+      {/* Back to Top Button */}
+      <AnimatePresence>
+        {showTopBtn && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-24 right-8 z-[110] w-12 h-12 bg-white border border-brand-peach/50 rounded-full flex items-center justify-center text-brand-dark shadow-lg hover:bg-brand-accent hover:text-white transition-all duration-300"
+            id="back-to-top"
+          >
+            <ArrowUp size={20} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
